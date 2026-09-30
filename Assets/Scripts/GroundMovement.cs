@@ -11,16 +11,26 @@ public class GroundMovement : MonoBehaviour
 
     private InputAction _Moveaction;
 
+    private ShockCalculator _ShockCalculator;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _Moveaction = InputSystem.actions.FindAction("Move");
+        _ShockCalculator = ShockCalculator.instance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        MovePlane(transform);
+
+        if (!_ShockCalculator.ShockState)
+        {
+            MovePlane(transform);
+
+        }
+
+
 
     }
 
