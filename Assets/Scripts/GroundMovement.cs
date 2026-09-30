@@ -7,6 +7,7 @@ public class GroundMovement : MonoBehaviour
     [SerializeField] private float maxangle;
     [SerializeField] private float MoveSpeed;
     [SerializeField] private float InputDeadZone;
+    [SerializeField] private Transform PlayerCameraTransform;
 
     private InputAction _Moveaction;
 
@@ -42,9 +43,14 @@ public class GroundMovement : MonoBehaviour
         // If the input is higher than the dead zone, we calculate the new rotation depending on the input
         if (MoveValue.sqrMagnitude > InputDeadZone)
         {
-            Vector2 RotationChange = MoveSpeed * Time.deltaTime * MoveValue;
-            NewRotation = TransformToRotate.rotation.eulerAngles + new Vector3(RotationChange.x, 0f, RotationChange.y);
+
+            Vector3 RotationChange = new Vector3(MoveValue.y * MoveSpeed * Time.deltaTime, 0.0f, -MoveValue.x * MoveSpeed * Time.deltaTime);
+
+
+            NewRotation = TransformToRotate.rotation.eulerAngles + RotationChange;
         }
+
+
 
         // We then rectify the values if it's higer than the max angle we dicided
 
