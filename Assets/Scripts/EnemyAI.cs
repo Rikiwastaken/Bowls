@@ -13,17 +13,21 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private Animator EnemyAnimator;
 
     [Header("Map Variables")]
-    [Header("Types: 1: Follower, 2: RandomPatroller, 2: TargettedPatroller")]
+    [Header("Types: 1: Follower, 2: RandomPatroller, 3: TargettedPatroller")]
 
     [SerializeField] private int EnemyType = -1;
 
     private float TimeBeforeAIResetsCounter;
     [SerializeField] private float TimeBeforeAIResets;
     [SerializeField] private float MinDistanceBeforeTargetChange;
-
+    [SerializeField] private float DetectionDistance;
+    private float TimeBeforeChaseIsAbandonnedCounter;
+    [SerializeField] private float TimeBeforeChaseIsAbandonned;
+    private bool Chasing;
 
     [Header("Map Variables")]
     [SerializeField] private float MapRadius;
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -47,6 +51,9 @@ public class EnemyAI : MonoBehaviour
             case 2:
                 RandomPatrollerAI();
                 break;
+            case 3:
+                TargettedPatrollerAI();
+                break;
 
         }
 
@@ -62,6 +69,41 @@ public class EnemyAI : MonoBehaviour
             agent.destination = RandomNavmeshLocation(MapRadius / 2);
             TimeBeforeAIResetsCounter = Time.time + TimeBeforeAIResets;
         }
+    }
+
+    private void TargettedPatrollerAI()
+    {
+        if (Chasing)
+        {
+            agent.destination = PlayerTransform.position;
+            if (Time.time > TimeBeforeChaseIsAbandonnedCounter)
+            {
+                Chasing = false;
+            }
+        }
+        else
+        {
+            if (Time.time > TimeBeforeAIResetsCounter || Vector3.Distance(transform.position, agent.destination) <= MinDistanceBeforeTargetChange)
+            {
+                agent.destination = RandomNavmeshLocation(MapRadius / 2);
+                TimeBeforeAIResetsCounter = Time.time + TimeBeforeAIResets;
+            }
+        }
+
+        if (Vector3.Distance(transform.position, PlayerTransform.position) < DetectionDistance)
+        {
+            Vector3 Direction = PlayerTransform.position - transform.position;
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, Direction, out hit, DetectionDistance))
+            {
+                if (hit.collider.transform == PlayerTransform)
+                {
+                    Chasing = true;
+                    TimeBeforeChaseIsAbandonnedCounter = Time.time + TimeBeforeChaseIsAbandonned;
+                }
+            }
+        }
+
     }
 
     private Vector3 RandomNavmeshLocation(float radius)
