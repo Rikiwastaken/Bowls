@@ -629,11 +629,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8842513104383010598, guid: 7a724c3a8510ab34d8d8de75e7b91568, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4
+      value: 1.09
       objectReference: {fileID: 0}
     - target: {fileID: 8842513104383010598, guid: 7a724c3a8510ab34d8d8de75e7b91568, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.05151
+      value: -8.77
       objectReference: {fileID: 0}
     - target: {fileID: 8842513104383010598, guid: 7a724c3a8510ab34d8d8de75e7b91568, type: 3}
       propertyPath: m_LocalRotation.w
@@ -676,9 +676,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 950444952387673400, guid: cbbed4fdb44d8944aa83132f392bbffe, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2532731960703906428, guid: cbbed4fdb44d8944aa83132f392bbffe, type: 3}
       propertyPath: m_Name
       value: Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 5420512255383304298, guid: cbbed4fdb44d8944aa83132f392bbffe, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 12e5ce543b46db745848aaf9f848cafb, type: 2}
+    - target: {fileID: 5420512255383304298, guid: cbbed4fdb44d8944aa83132f392bbffe, type: 3}
+      propertyPath: m_LayerMask.m_Bits
+      value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 5823817126191224732, guid: cbbed4fdb44d8944aa83132f392bbffe, type: 3}
       propertyPath: m_LocalPosition.x

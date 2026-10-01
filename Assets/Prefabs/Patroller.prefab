@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &743485029619786795
+--- !u!1001 &2137924306392331075
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 983059839378506377, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
       propertyPath: m_Name
-      value: Follower
+      value: EnemyTemplate
       objectReference: {fileID: 0}
     - target: {fileID: 8135622298925433613, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
       propertyPath: m_LocalPosition.x
