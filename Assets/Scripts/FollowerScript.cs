@@ -19,6 +19,6 @@ public class FollowerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agent.destination = PlayerTransform.transform.position;
+        agent.destination = PlayerTransform.position;
     }
 }
