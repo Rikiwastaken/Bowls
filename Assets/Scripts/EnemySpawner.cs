@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,16 +8,24 @@ public class EnemySpawner : MonoBehaviour
 {
 
     public static EnemySpawner instance;
+    [SerializeField] private TextMeshProUGUI TimerText;
 
     [SerializeField] private List<GameObject> EnemyPrefabs;
 
     [SerializeField] private float MinDistToSpawnEnemy;
 
+    [SerializeField] private float TimeBetweenEnemySpawns;
+    private float TimeBetweenEnemySpawnsCounter;
+
+    private List<int> remainingEnemyID;
+
     [Header("Global Enemy Variable")]
     public List<GameObject> SpawnedEnemies;
     public float DistanceToClosestEnemy;
-
     private Transform playertransform;
+
+
+
 
     private void Awake()
     {
@@ -26,10 +35,20 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         playertransform = ShockCalculator.instance.transform;
+
+        TimeBetweenEnemySpawnsCounter = TimeBetweenEnemySpawns;
+        remainingEnemyID = new List<int>();
+        for (int i = 0; i < EnemyPrefabs.Count; i++)
+        {
+            remainingEnemyID.Add(i);
+        }
     }
 
     private void Update()
     {
+
+        TickDownEnemySpawn();
+
         GameObject ClosestEnemy = null;
         DistanceToClosestEnemy = 9999;
 
@@ -50,9 +69,34 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    private void TickDownEnemySpawn()
+    {
+        if (TimeBetweenEnemySpawnsCounter <= 0)
+        {
+            SpawnEnemy();
+            TimeBetweenEnemySpawnsCounter = TimeBetweenEnemySpawns * (SpawnedEnemies.Count + 1);
+        }
+        else
+        {
+            TimeBetweenEnemySpawnsCounter -= Time.deltaTime;
+        }
+
+        TimerText.text = "Next Sentry arrives in: " + (int)TimeBetweenEnemySpawnsCounter;
+
+    }
+
     private void SpawnEnemy()
     {
-        int EnemyID = Random.Range(0, EnemyPrefabs.Count);
+        int EnemyID;
+        if (remainingEnemyID.Count > 0)
+        {
+            EnemyID = remainingEnemyID[Random.Range(0, remainingEnemyID.Count)];
+        }
+        else
+        {
+            EnemyID = Random.Range(0, EnemyPrefabs.Count);
+        }
+
 
         Vector3 SpawnPosition = Vector3.zero;
 
