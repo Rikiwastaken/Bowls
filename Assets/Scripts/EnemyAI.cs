@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,17 +14,27 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private Animator EnemyAnimator;
 
     [Header("Map Variables")]
-    [Header("Types: 1: Follower, 2: RandomPatroller, 3: TargettedPatroller")]
+    [Header("Types: 1: Follower, 2: RandomPatroller, 3: TargettedPatroller, 4: DelayedFollower")]
 
     [SerializeField] private int EnemyType = -1;
-
+    // Variables for type 2 and 3
     private float TimeBeforeAIResetsCounter;
     [SerializeField] private float TimeBeforeAIResets;
     [SerializeField] private float MinDistanceBeforeTargetChange;
     [SerializeField] private float DetectionDistance;
+
+    //Variables for type 3
     private float TimeBeforeChaseIsAbandonnedCounter;
     [SerializeField] private float TimeBeforeChaseIsAbandonned;
     private bool Chasing;
+
+
+    //Variables for type 4
+    private float TimeBeforeTakingPositionIntoAccountCounter;
+    [SerializeField] private float TimeBeforeTakingPositionIntoAccount;
+    private List<Vector3> PreviousPositions = new List<Vector3>();
+
+
 
     [Header("Map Variables")]
     [SerializeField] private float MapRadius;
@@ -53,6 +64,9 @@ public class EnemyAI : MonoBehaviour
                 break;
             case 3:
                 TargettedPatrollerAI();
+                break;
+            case 4:
+                DelayedFollowerAI();
                 break;
 
         }
@@ -104,6 +118,20 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
+    }
+
+    private void DelayedFollowerAI()
+    {
+        PreviousPositions.Add(PlayerTransform.localPosition);
+        if (TimeBeforeTakingPositionIntoAccountCounter == 0)
+        {
+            TimeBeforeTakingPositionIntoAccountCounter = Time.time + TimeBeforeTakingPositionIntoAccount;
+        }
+        else if (Time.time > TimeBeforeTakingPositionIntoAccountCounter)
+        {
+            agent.destination = PreviousPositions[0];
+            PreviousPositions.RemoveAt(0);
+        }
     }
 
     private Vector3 RandomNavmeshLocation(float radius)

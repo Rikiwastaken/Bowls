@@ -112,7 +112,10 @@ MonoBehaviour:
   EnemyType: -1
   TimeBeforeAIResets: 20
   MinDistanceBeforeTargetChange: 2
-  MapRadius: 20
+  DetectionDistance: 10
+  TimeBeforeChaseIsAbandonned: 30
+  TimeBeforeTakingPositionIntoAccount: 10
+  MapRadius: 40
 --- !u!1 &4282112639161614848
 GameObject:
   m_ObjectHideFlags: 0

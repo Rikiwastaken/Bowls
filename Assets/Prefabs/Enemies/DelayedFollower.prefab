@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &2137924306392331075
+--- !u!1001 &3511833236361368523
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,47 +10,39 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5103731681555287107, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
       propertyPath: EnemyType
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: -5103731681555287107, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
-      propertyPath: MapRadius
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: -5103731681555287107, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
-      propertyPath: DetectionDistance
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: -5103731681555287107, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
-      propertyPath: TimeBeforeChaseIsAbandonned
-      value: 30
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -3173051979977844054, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
       propertyPath: EnemyColor.b
-      value: 0.023584902
+      value: 0.6297423
       objectReference: {fileID: 0}
     - target: {fileID: -3173051979977844054, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
       propertyPath: EnemyColor.g
-      value: 0.052563533
+      value: 0.0031594948
       objectReference: {fileID: 0}
     - target: {fileID: -3173051979977844054, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
       propertyPath: EnemyColor.r
-      value: 1
+      value: 0.6698113
       objectReference: {fileID: 0}
     - target: {fileID: 983059839378506377, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
       propertyPath: m_Name
-      value: TargettedPatroller
+      value: DelayedFollower
+      objectReference: {fileID: 0}
+    - target: {fileID: 1274498437302652042, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8135622298925433613, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8135622298925433613, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8135622298925433613, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 15.59
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8135622298925433613, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
       propertyPath: m_LocalRotation.w
@@ -82,7 +74,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8536182261139207200, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
       propertyPath: m_Speed
-      value: 1.5
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536182261139207200, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
+      propertyPath: m_Radius
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536182261139207200, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536182261139207200, guid: 643ce1672da4a8347bc8fc4b56811999, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
