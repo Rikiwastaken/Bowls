@@ -74,7 +74,7 @@ public class EnemySpawner : MonoBehaviour
         if (TimeBetweenEnemySpawnsCounter <= 0)
         {
             SpawnEnemy();
-            TimeBetweenEnemySpawnsCounter = TimeBetweenEnemySpawns * (SpawnedEnemies.Count + 1);
+            TimeBetweenEnemySpawnsCounter = TimeBetweenEnemySpawns * (SpawnedEnemies.Count + 1) / 2f;
         }
         else
         {

@@ -10,13 +10,20 @@ public class GroundMovement : MonoBehaviour
     [SerializeField] private Transform PlayerCameraTransform;
 
     private InputAction _Moveaction;
+    private InputAction _Stabilize;
 
     private ShockCalculator _ShockCalculator;
+
+    private bool Stabilizing;
+    private float RemainingStabilizingTime;
+    [SerializeField] private float StabilizingDuration;
+    private Quaternion initialRotation;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _Moveaction = InputSystem.actions.FindAction("Move");
+        _Stabilize = InputSystem.actions.FindAction("Stabilize");
         _ShockCalculator = ShockCalculator.instance;
     }
 
@@ -26,13 +33,51 @@ public class GroundMovement : MonoBehaviour
 
         if (!_ShockCalculator.ShockState)
         {
-            MovePlane(transform);
+            if (!Stabilizing)
+            {
+                MovePlane(transform);
+            }
+
+            StabilizePlane(transform);
 
         }
 
 
 
     }
+
+    private void StabilizePlane(Transform TransformToRotate)
+    {
+        // First we acitvate the inputaction
+        if (!_Stabilize.enabled)
+        {
+            _Stabilize.Enable();
+        }
+
+        if (Stabilizing)
+        {
+            if (RemainingStabilizingTime > 0)
+            {
+                RemainingStabilizingTime -= Time.deltaTime;
+                float ratio = 1f - (RemainingStabilizingTime / StabilizingDuration);
+
+                TransformToRotate.rotation = Quaternion.Lerp(initialRotation, Quaternion.identity, ratio);
+            }
+            else
+            {
+                Stabilizing = false;
+            }
+
+        }
+        else if (_Stabilize.WasPerformedThisFrame())
+        {
+            Stabilizing = true;
+            RemainingStabilizingTime = StabilizingDuration;
+            initialRotation = TransformToRotate.rotation;
+        }
+
+    }
+
 
     private void MovePlane(Transform TransformToRotate)
     {
