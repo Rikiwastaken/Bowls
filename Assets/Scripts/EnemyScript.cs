@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
-    public SkinnedMeshRenderer EnemyMainBodyModel;
+    [SerializeField] private SkinnedMeshRenderer EnemyMainBodyModel;
 
-    public GameObject EnemyModel;
+    [SerializeField] private GameObject EnemyModel;
 
-    public Material EnemyEyeMat;
+    [SerializeField] private Color EnemyColor;
 
+    [SerializeField] private Light EnemyLight;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,10 +18,11 @@ public class EnemyScript : MonoBehaviour
     }
 
 
+
     public void Setup()
     {
 
-        if (EnemyEyeMat != null)
+        if (EnemyColor != null)
         {
 
             // We get the eye model and then replace it
@@ -38,8 +40,15 @@ public class EnemyScript : MonoBehaviour
 
             if (originialmat != null)
             {
-                ApplyMatListToChildren(EnemyModel.transform, EnemyEyeMat, originialmat);
+
+                Material newmat = new Material(originialmat);
+                newmat.color = EnemyColor;
+                newmat.SetColor("_EmissionColor", EnemyColor);
+
+                ApplyMatListToChildren(EnemyModel.transform, newmat, originialmat);
             }
+
+            EnemyLight.color = EnemyColor;
         }
     }
 
@@ -49,7 +58,7 @@ public class EnemyScript : MonoBehaviour
         if (transform.GetComponent<Renderer>())
         {
 
-            Renderer Renderer = transform.GetComponent<SkinnedMeshRenderer>();
+            Renderer Renderer = transform.GetComponent<Renderer>();
 
             Material[] materials = Renderer.materials;
 

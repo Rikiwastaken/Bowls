@@ -8,6 +8,10 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent agent;
 
     private Transform PlayerTransform;
+
+
+    [SerializeField] private Animator EnemyAnimator;
+
     [Header("Map Variables")]
     [Header("Types: 1: Follower, 2: RandomPatroller, 2: TargettedPatroller")]
 
@@ -32,6 +36,9 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        EnemyAnimator.SetFloat("Speed", agent.velocity.magnitude);
+
         switch (EnemyType)
         {
             case 1:
@@ -53,6 +60,7 @@ public class EnemyAI : MonoBehaviour
         if (Time.time > TimeBeforeAIResetsCounter || Vector3.Distance(transform.position, agent.destination) <= MinDistanceBeforeTargetChange)
         {
             agent.destination = RandomNavmeshLocation(MapRadius / 2);
+            TimeBeforeAIResetsCounter = Time.time + TimeBeforeAIResets;
         }
     }
 
