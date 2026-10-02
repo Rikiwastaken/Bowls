@@ -11,6 +11,14 @@ public class EnemyScript : MonoBehaviour
 
     [SerializeField] private Light EnemyLight;
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.transform.GetComponent<PlayerHP>())
+        {
+            collision.collider.transform.GetComponent<PlayerHP>().TakeDamage();
+        }
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

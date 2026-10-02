@@ -38,6 +38,7 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Map Variables")]
     [SerializeField] private float MapRadius;
+    private Vector3 InitialPosition;
 
 
 
@@ -51,7 +52,10 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (InitialPosition == null)
+        {
+            InitialPosition = transform.position;
+        }
         EnemyAnimator.SetFloat("Speed", agent.velocity.magnitude);
 
         switch (EnemyType)
@@ -132,6 +136,13 @@ public class EnemyAI : MonoBehaviour
             agent.destination = PreviousPositions[0];
             PreviousPositions.RemoveAt(0);
         }
+    }
+
+    public void ReplaceEnemy()
+    {
+        transform.position = InitialPosition;
+        Vector3 PositionOnNavmesh = RandomNavmeshLocation(5f);
+        transform.position = PositionOnNavmesh;
     }
 
     private Vector3 RandomNavmeshLocation(float radius)

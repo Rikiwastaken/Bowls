@@ -143,6 +143,13 @@ public class EnemySpawner : MonoBehaviour
 
     }
 
+    public void ResetEnemyPosition()
+    {
+        foreach (GameObject Enemy in SpawnedEnemies)
+        {
+            Enemy.GetComponent<EnemyAI>().ReplaceEnemy();
+        }
+    }
     private Vector3 RandomNavmeshLocation(float radius)
     {
         Vector3 randomDirection = Random.insideUnitSphere * radius;

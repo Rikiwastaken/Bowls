@@ -279,7 +279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 82626e7f8063b6d4a939c4812171ef2e, type: 3}
       propertyPath: m_Name
-      value: OuterBall
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -303,6 +303,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 82626e7f8063b6d4a939c4812171ef2e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7444892230078060922}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 82626e7f8063b6d4a939c4812171ef2e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3292757626294562828}
   m_SourcePrefab: {fileID: 100100000, guid: 82626e7f8063b6d4a939c4812171ef2e, type: 3}
 --- !u!1 &2827175048082264328 stripped
 GameObject:
@@ -385,6 +388,20 @@ MonoBehaviour:
   Shockstateduration: 1
   SpeedDiffNeededForShockState: 5
   StartGracePeriod: 5
+--- !u!114 &-3292757626294562828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2827175048082264328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a28d58e6187e2a645a8c4a63451008f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  InvincibilityTime: 2
+  RemainingLives: 3
 --- !u!4 &3204298038184692658 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 82626e7f8063b6d4a939c4812171ef2e, type: 3}

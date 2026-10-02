@@ -7,7 +7,7 @@ public class EnergySpawner : MonoBehaviour
 {
 
     public static EnergySpawner Instance;
-
+    [SerializeField] private GameOverScript VictoryScript;
     [SerializeField] private Transform EnergyPositionHolder;
     [SerializeField] private TextMeshProUGUI PickedUpEnergyText;
     [SerializeField] private Image PickedUpEnergyImage;
@@ -161,5 +161,22 @@ public class EnergySpawner : MonoBehaviour
         UpdateEnergyHUD();
         EnergyList.Remove(Energy);
         Destroy(Energy);
+
+        switch (_PersistentScript.ChosenMode)
+        {
+            case 0:
+                if (EnergyPickedUp >= 10)
+                {
+                    VictoryScript.OpenMenu();
+                }
+                break;
+            case 2:
+                if (EnergyPickedUp >= 5)
+                {
+                    VictoryScript.OpenMenu();
+                }
+                break;
+        }
+
     }
 }

@@ -4,14 +4,16 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
 
+    public static Timer instance;
+
     public float TimeSinceStarted;
     [SerializeField] private TextMeshProUGUI TimerText;
     public bool StopTimer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-
+        instance = this;
     }
 
     // Update is called once per frame

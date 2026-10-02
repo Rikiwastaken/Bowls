@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 public class GroundMovement : MonoBehaviour
 {
 
+    public static GroundMovement instance;
+
     [SerializeField] private float maxangle;
     [SerializeField] private float MoveSpeed;
     [SerializeField] private float InputDeadZone;
@@ -18,6 +20,11 @@ public class GroundMovement : MonoBehaviour
     private float RemainingStabilizingTime;
     [SerializeField] private float StabilizingDuration;
     private Quaternion initialRotation;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,18 +42,18 @@ public class GroundMovement : MonoBehaviour
         {
             if (!Stabilizing)
             {
-                MovePlane(transform);
+                MovePlane();
             }
 
-            StabilizePlane(transform);
+
 
         }
 
-
+        StabilizePlane();
 
     }
 
-    private void StabilizePlane(Transform TransformToRotate)
+    public void StabilizePlane(bool ForceStabilization = false)
     {
         // First we acitvate the inputaction
         if (!_Stabilize.enabled)
@@ -61,7 +68,7 @@ public class GroundMovement : MonoBehaviour
                 RemainingStabilizingTime -= Time.deltaTime;
                 float ratio = 1f - (RemainingStabilizingTime / StabilizingDuration);
 
-                TransformToRotate.rotation = Quaternion.Lerp(initialRotation, Quaternion.identity, ratio);
+                transform.rotation = Quaternion.Lerp(initialRotation, Quaternion.identity, ratio);
             }
             else
             {
@@ -69,17 +76,17 @@ public class GroundMovement : MonoBehaviour
             }
 
         }
-        else if (_Stabilize.WasPerformedThisFrame())
+        else if (ForceStabilization || (_Stabilize.WasPerformedThisFrame() && !_ShockCalculator.ShockState))
         {
             Stabilizing = true;
             RemainingStabilizingTime = StabilizingDuration;
-            initialRotation = TransformToRotate.rotation;
+            initialRotation = transform.rotation;
         }
 
     }
 
 
-    private void MovePlane(Transform TransformToRotate)
+    private void MovePlane()
     {
 
         // First we acitvate the inputaction
@@ -91,7 +98,7 @@ public class GroundMovement : MonoBehaviour
         // We Read the input in a Vector3
         Vector2 MoveValue = _Moveaction.ReadValue<Vector2>();
 
-        Vector3 NewRotation = TransformToRotate.rotation.eulerAngles;
+        Vector3 NewRotation = transform.rotation.eulerAngles;
 
 
 
@@ -102,7 +109,7 @@ public class GroundMovement : MonoBehaviour
             Vector3 RotationChange = new Vector3(MoveValue.y * MoveSpeed * Time.deltaTime, 0.0f, -MoveValue.x * MoveSpeed * Time.deltaTime);
 
 
-            NewRotation = TransformToRotate.rotation.eulerAngles + RotationChange;
+            NewRotation = transform.rotation.eulerAngles + RotationChange;
         }
 
 
@@ -116,7 +123,7 @@ public class GroundMovement : MonoBehaviour
 
         // Then we apply the rotation
 
-        TransformToRotate.rotation = Quaternion.Euler(NewRotation);
+        transform.rotation = Quaternion.Euler(NewRotation);
 
     }
 
