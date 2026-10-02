@@ -1615,7 +1615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db3adcfa1afbe4e4aaaa8a51c9220ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  VictoryScript: {fileID: 0}
+  VictoryScript: {fileID: 3578916116004609288}
   EnergyPositionHolder: {fileID: 7395890172892824457}
   PickedUpEnergyText: {fileID: 2900020284919739147}
   PickedUpEnergyImage: {fileID: 2664183691946749164}
@@ -4291,6 +4291,10 @@ PrefabInstance:
       propertyPath: HPText
       value: 
       objectReference: {fileID: 1648539565492218574}
+    - target: {fileID: -3292757626294562828, guid: ad423de34d8469e479ddadb8e5c6bcee, type: 3}
+      propertyPath: _GameOverScript
+      value: 
+      objectReference: {fileID: 3799317861019778363}
     - target: {fileID: 2827175048082264328, guid: ad423de34d8469e479ddadb8e5c6bcee, type: 3}
       propertyPath: m_Name
       value: OuterBall
