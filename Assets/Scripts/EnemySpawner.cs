@@ -24,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
     public float DistanceToClosestEnemy;
     private Transform playertransform;
 
-
+    private PersistentScript _PersistentScript;
 
 
     private void Awake()
@@ -35,6 +35,7 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         playertransform = ShockCalculator.instance.transform;
+        _PersistentScript = PersistentScript.instance;
 
         TimeBetweenEnemySpawnsCounter = TimeBetweenEnemySpawns;
         remainingEnemyID = new List<int>();
@@ -42,6 +43,16 @@ public class EnemySpawner : MonoBehaviour
         {
             remainingEnemyID.Add(i);
         }
+        if (_PersistentScript.ChosenMode == 2)
+        {
+            foreach (GameObject enemy in EnemyPrefabs)
+            {
+                SpawnEnemy();
+            }
+        }
+
+
+
     }
 
     private void Update()
@@ -74,7 +85,7 @@ public class EnemySpawner : MonoBehaviour
         if (TimeBetweenEnemySpawnsCounter <= 0)
         {
             SpawnEnemy();
-            TimeBetweenEnemySpawnsCounter = TimeBetweenEnemySpawns * (SpawnedEnemies.Count + 1) / 2f;
+            TimeBetweenEnemySpawnsCounter = TimeBetweenEnemySpawns * (SpawnedEnemies.Count / 4f + 1f);
         }
         else
         {

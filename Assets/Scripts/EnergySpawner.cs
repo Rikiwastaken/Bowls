@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnergySpawner : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class EnergySpawner : MonoBehaviour
 
     [SerializeField] private Transform EnergyPositionHolder;
     [SerializeField] private TextMeshProUGUI PickedUpEnergyText;
+    [SerializeField] private Image PickedUpEnergyImage;
     [SerializeField] private float TimeBetweenEnergySpawns;
     private float TimeBetweenEnergySpawnsCounter;
     [SerializeField] private GameObject EnergyPrefab;
@@ -17,6 +19,8 @@ public class EnergySpawner : MonoBehaviour
 
 
     public int EnergyPickedUp;
+
+    private PersistentScript _PersistentScript;
 
     private void Awake()
     {
@@ -27,26 +31,75 @@ public class EnergySpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        SpawnEnergy(Vector3.zero);
         PlayerTransform = ShockCalculator.instance.transform;
+        _PersistentScript = PersistentScript.instance;
+        if (_PersistentScript.ChosenMode == 2)
+        {
+            foreach (Transform Position in EnergyPositionHolder)
+            {
+                SpawnEnergy();
+            }
+        }
+        UpdateEnergyHUD();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (EnergyList.Count < EnergyPositionHolder.childCount)
+        switch (_PersistentScript.ChosenMode)
         {
-            if (Time.time > TimeBetweenEnergySpawnsCounter)
-            {
-                TimeBetweenEnergySpawnsCounter = Time.time + TimeBetweenEnergySpawns;
-                SpawnEnergy(PlayerTransform.transform.position);
-            }
+            case 0:
+
+                if (EnergyList.Count < EnergyPositionHolder.childCount)
+                {
+                    if (Time.time > TimeBetweenEnergySpawnsCounter)
+                    {
+                        TimeBetweenEnergySpawnsCounter = Time.time + TimeBetweenEnergySpawns;
+                        SpawnEnergy();
+                    }
+                }
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
+
+
+    }
+
+    private void UpdateEnergyHUD()
+    {
+        switch (_PersistentScript.ChosenMode)
+        {
+            case 0:
+
+                if (!PickedUpEnergyImage.gameObject.activeSelf)
+                {
+                    PickedUpEnergyImage.gameObject.SetActive(true);
+                }
+                PickedUpEnergyText.text = ": " + EnergyPickedUp + "/10";
+                break;
+            case 1:
+                if (PickedUpEnergyImage.gameObject.activeSelf)
+                {
+                    PickedUpEnergyImage.gameObject.SetActive(false);
+                }
+                PickedUpEnergyText.text = "";
+                break;
+            case 2:
+                if (!PickedUpEnergyImage.gameObject.activeSelf)
+                {
+                    PickedUpEnergyImage.gameObject.SetActive(true);
+                }
+                PickedUpEnergyText.text = ": " + EnergyPickedUp + "/5";
+                break;
         }
     }
 
-    private void SpawnEnergy(Vector3 CurrentPos)
+    private void SpawnEnergy()
     {
-        Vector3 Spawnpos = GetRandomSpawnPoint(CurrentPos);
+        Vector3 Spawnpos = GetRandomSpawnPoint(PlayerTransform.position);
         GameObject NewEnergy = Instantiate(EnergyPrefab);
         EnergyList.Add(NewEnergy);
         NewEnergy.transform.SetParent(transform);
@@ -62,7 +115,27 @@ public class EnergySpawner : MonoBehaviour
             PotentialPositions.Add(child.position);
         }
 
-        if (CurrentPosition != Vector3.zero)
+        // First We Remove Positions Already Taken
+        List<Vector3> Listpositionstoremove = new List<Vector3>();
+        foreach (Vector3 position in PotentialPositions)
+        {
+            foreach (GameObject Energy in EnergyList)
+            {
+                if (Vector3.Distance(position, Energy.transform.position) < 1)
+                {
+                    Listpositionstoremove.Add(position);
+                }
+            }
+        }
+
+        foreach (Vector3 positionstoremove in Listpositionstoremove)
+        {
+            PotentialPositions.Remove(positionstoremove);
+        }
+
+        // Then we remove the closest unless it's the last one.
+
+        if (CurrentPosition != Vector3.zero && PotentialPositions.Count > 1)
         {
             Vector3 closestPosition = Vector3.zero;
             float mindist = Mathf.Infinity;
@@ -85,7 +158,7 @@ public class EnergySpawner : MonoBehaviour
     public void EnergyTouched(GameObject Energy)
     {
         EnergyPickedUp++;
-        PickedUpEnergyText.text = ": " + EnergyPickedUp + "/10";
+        UpdateEnergyHUD();
         EnergyList.Remove(Energy);
         Destroy(Energy);
     }
